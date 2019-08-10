@@ -7,25 +7,9 @@ const multer = require('multer');
 const uuid = require('uuid/v4');
 const {format} = require('timeago.js');
 const {mongoose} = require('./database');
-var mongoose = require('mongoose');
-var app = require('./app');
-var port = process.env.PORT || 3000;
 
-mongoose.Promise = global.Promise;
-
-mongoose.connect(process.env.URLDB, (err, res)=>{
-    if(err){
-        throw err;
-    }else{
-        console.log("La conexión a la base de datos esta corriendo correctamente...");
-
-        app.listen(port, function(){
-            console.log("Servidor de EssoQue WEB Music escuchando en http://localhost:", port);
-        });
-    }
-});
 //Configuraciones del servidor  SETTINGS
-//app.set('port', process.env.PORT||3000);
+app.set('port', process.env.PORT.URLDB||3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -40,7 +24,7 @@ const storage = multer.diskStorage({
     }
 });
 app.use(multer({storage: storage}).single('image'));
-//app.use(cors({origin: 'http://localhost:4200'}));
+app.use(cors({origin: 'http://localhost:4200'}));
 
 
 //variables globales
@@ -61,6 +45,6 @@ app.use(require('./routes/index'));
 app.use(express.static(path.join(__dirname, 'public'))); 
 
 //Iniciar servidor
-// app.listen(app.get('port'), ()=>{
-//     console.log('Server on port', app.get('port'));
-// });
+app.listen(app.get('port'), ()=>{
+    console.log('Server on port', app.get('port'));
+});
